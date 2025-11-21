@@ -1,224 +1,184 @@
-# 🤖 AI Summarizer v2
+# 🤖 AI Summarizer
 
-Applicazione moderna per riassunti AI con 6 template specializzati, powered by Groq API.
+> Transform your documents into actionable insights with advanced AI. Free, no registration required.
 
-![AI Summarizer](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-38bdf8?style=for-the-badge&logo=tailwindcss)
-![Groq](https://img.shields.io/badge/Groq-AI-orange?style=for-the-badge)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Made with Next.js](https://img.shields.io/badge/Made%20with-Next.js-000000?logo=next.js)](https://nextjs.org/)
+[![Powered by Groq](https://img.shields.io/badge/Powered%20by-Groq-orange)](https://groq.com/)
 
-## ✨ Caratteristiche
+## ✨ Features
 
-- 🎯 **6 Template AI Specializzati**
-  - ⚡ Brief - Riassunto conciso e diretto
-  - 📋 Dettagliato - Analisi approfondita
-  - 📝 Punti Chiave - Elenco puntato
-  - 🎓 Accademico - Stile formale e scientifico
-  - 💼 Business - Focus su metriche e decisioni
-  - ✨ Creativo - Narrativo e coinvolgente
-
-- 📄 **Upload Multipli Formati**: PDF, DOC, DOCX, TXT
-- 📊 **Dashboard Statistiche**: Tracking in tempo reale (localStorage)
-- 💾 **Export PDF**: Salva i tuoi riassunti
-- 🎨 **Design Glassmorphism**: Gradient blu-viola-rosa
-- 🌙 **Dark Mode**: Integrato nativamente
-- ⚡ **Single Page App**: Zero reload, esperienza fluida
-- 🔒 **100% Privato**: Nessun dato salvato sui server
-
-## 🛠️ Stack Tecnologico
-
-### Frontend
-- **Next.js 14** (App Router)
-- **TailwindCSS** (zero CSS custom)
-- **Framer Motion** (animazioni smooth)
-- **react-dropzone** (drag & drop)
-- **jsPDF** (export PDF)
-
-### Backend
-- **Node.js** + **Express**
-- **Groq API** (llama-3.1-70b-versatile)
-- **Multer** (file upload)
-- **pdf-parse**, **mammoth** (text extraction)
+- 🎯 **6 Specialized Templates** - Standard, Business, Marketing, Academic, Technical, Meeting
+- 📁 **Multi-Format Support** - PDF, DOC, DOCX, TXT (up to 10MB)
+- 🚀 **Instant Processing** - Powered by Groq's Llama 3.3 70B model
+- 📊 **Real-time Statistics** - Track summaries, words processed, characters analyzed
+- 📄 **PDF Export** - Professional export with branding
+- 🌐 **Bilingual Interface** - Italian and English support
+- 🔒 **100% Free & Private** - No registration, no tracking, no data storage
+- 💾 **Local Storage** - All statistics saved locally in your browser
 
 ## 🚀 Quick Start
 
-### 1️⃣ Backend Setup
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+- Groq API key (free at [console.groq.com](https://console.groq.com))
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/Morrix76/ai-summarizer.git
+cd ai-summarizer
+```
+
+2. **Setup Backend**
 ```bash
 cd backend
 npm install
-
-# Crea file .env
-echo "GROQ_API_KEY=gsk_your_key_here" > .env
-
-npm run dev
 ```
 
-✅ Backend su `http://localhost:5000`
-
-### 2️⃣ Frontend Setup
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-✅ Frontend su `http://localhost:3000`
-
-### 3️⃣ Ottieni Groq API Key (Gratis!)
-
-1. Vai su [console.groq.com](https://console.groq.com)
-2. Registrati (GitHub/Google)
-3. Crea API Key
-4. Copia nel file `backend/.env`
-
-📚 **Setup dettagliato**: Vedi `SETUP.md`
-
-## 📸 Preview
-
-```
-┌─────────────────────────────────────────────┐
-│  🤖 AI Summarizer    [●] Online            │
-├─────────────────────────────────────────────┤
-│                                             │
-│   Riassunti Intelligenti in Secondi        │
-│                                             │
-│  ┌──────────────┐  ┌──────────────┐        │
-│  │  📄 Testo   │  │  📎 File     │        │
-│  └──────────────┘  └──────────────┘        │
-│                                             │
-│  [Textarea o Dropzone]                     │
-│                                             │
-│  Template:                                  │
-│  [⚡Brief] [📋Detail] [📝Bullet]          │
-│  [🎓Academic] [💼Business] [✨Creative]    │
-│                                             │
-│  [✨ Genera Riassunto]                     │
-│                                             │
-│  📊 Statistiche: 42 riassunti              │
-└─────────────────────────────────────────────┘
-```
-
-## 📡 API Endpoints
-
-| Endpoint | Method | Descrizione |
-|----------|--------|-------------|
-| `/health` | GET | Health check server |
-| `/api/templates` | GET | Lista 6 template |
-| `/api/summarize` | POST | Riassumi testo |
-| `/api/summarize-file` | POST | Riassumi file |
-
-## 🎯 Utilizzo
-
-1. **Scegli input**: Incolla testo o carica file (PDF/DOC/TXT)
-2. **Seleziona template**: Scegli tra 6 stili specializzati
-3. **Genera**: Click su "Genera Riassunto"
-4. **Export**: Copia o esporta in PDF
-
-## 📁 Struttura Progetto
-
-```
-AI-Summarizer-v2/
-├── backend/
-│   ├── server.js              # Express server
-│   ├── routes/
-│   │   └── summarize.js      # API routes
-│   ├── services/
-│   │   └── groqService.js    # Groq integration
-│   ├── utils/
-│   │   └── fileProcessor.js  # File parsing
-│   └── package.json
-│
-├── frontend/
-│   ├── app/
-│   │   ├── page.js           # Main page
-│   │   ├── layout.js         # Root layout
-│   │   └── globals.css       # Global styles
-│   ├── components/
-│   │   ├── TextInput.js      # Text input
-│   │   ├── FileUpload.js     # File upload
-│   │   ├── TemplateSelector.js
-│   │   ├── OutputDisplay.js
-│   │   └── StatsBar.js
-│   └── package.json
-│
-├── README.md
-├── SETUP.md                   # Setup dettagliato
-└── START.md                   # Quick start
-```
-
-## 🔧 Configurazione
-
-### Backend (.env)
+Create `.env` file in backend folder:
 ```env
-GROQ_API_KEY=gsk_your_key_here
-PORT=5000
+GROQ_API_KEY=your_groq_api_key_here
+PORT=3001
 NODE_ENV=development
 ```
 
-### Frontend (.env.local)
-```env
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
+3. **Setup Frontend**
+```bash
+cd ../frontend
+npm install
 ```
 
-## 🐛 Troubleshooting
+4. **Run the application**
 
-**Backend non parte?**
-- Verifica che il file `.env` esista in `backend/`
-- Controlla che `GROQ_API_KEY` sia valida
-
-**Frontend non comunica con backend?**
-- Assicurati che il backend sia su porta 5000
-- Controlla CORS nel browser console
-
-**File upload non funziona?**
-- Massimo 10MB per file
-- Solo PDF, DOC, DOCX, TXT supportati
-
-📖 Vedi `SETUP.md` per troubleshooting completo
-
-## 🚀 Build Production
-
+Terminal 1 (Backend):
 ```bash
-# Backend
 cd backend
 npm start
-
-# Frontend
-cd frontend
-npm run build
-npm start
 ```
 
-## 📝 Note
+Terminal 2 (Frontend):
+```bash
+cd frontend
+npm run dev
+```
 
-- ✅ **Gratuito**: Groq offre free tier generoso
-- ✅ **Privato**: File eliminati dopo elaborazione
-- ✅ **Veloce**: Groq è uno degli LLM più veloci
-- ✅ **Open**: Codice modificabile e estendibile
+5. **Open your browser**
+```
+http://localhost:3000
+```
+
+## 📖 How to Use
+
+### Text Input
+1. Click on "Testo" tab
+2. Paste your document content
+3. Select a specialized template
+4. Click "Genera Riassunto"
+5. Copy or export your summary
+
+### File Upload
+1. Click on "File" tab
+2. Drag & drop or click to select file (PDF, DOC, DOCX, TXT)
+3. Wait for automatic processing
+4. View and export results
+
+## 🎨 Templates
+
+| Template | Focus | Best For |
+|----------|-------|----------|
+| 📝 Standard | General purpose | Articles, reports, general content |
+| 💼 Business | ROI, KPIs, decisions | Business reports, strategic docs |
+| 📈 Marketing | Conversions, insights | Campaign analysis, market research |
+| 🎓 Academic | Methodology, analysis | Research papers, studies |
+| ⚙️ Technical | Implementation, solutions | Technical docs, troubleshooting |
+| 🤝 Meeting | Decisions, action items | Meeting notes, collaboration |
+
+## 🛠️ Tech Stack
+
+**Frontend:**
+- Next.js 14
+- React
+- TailwindCSS
+- react-dropzone
+- jsPDF + html2canvas
+
+**Backend:**
+- Node.js
+- Express
+- Groq API (Llama 3.3 70B)
+- Multer
+- pdf-parse
+- mammoth
+
+## 📁 Project Structure
+
+```
+ai-summarizer/
+├── frontend/
+│   ├── components/
+│   │   ├── TextInput.js
+│   │   ├── FileUpload.js
+│   │   ├── TemplateSelector.js
+│   │   ├── OutputDisplay.js
+│   │   └── StatsBar.js
+│   ├── pages/
+│   │   └── index.js
+│   ├── utils/
+│   │   └── api.js
+│   └── styles/
+│       └── globals.css
+├── backend/
+│   ├── routes/
+│   │   └── summarize.js
+│   ├── services/
+│   │   └── groqService.js
+│   └── index.js
+└── README.md
+```
+
+## 🌍 Internationalization
+
+The app supports both Italian and English. Language can be switched via the toggle in the header. Preferences are saved locally.
+
+## 🔒 Privacy & Security
+
+- ✅ No user registration required
+- ✅ No data stored on servers
+- ✅ All statistics saved locally in browser
+- ✅ Files processed temporarily and immediately deleted
+- ✅ No tracking or analytics
+- ✅ Open source - verify the code yourself
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Francesco Ciardo**
+
+- GitHub: [@Morrix76](https://github.com/Morrix76)
 
 ## 🤝 Contributing
 
-Contributi benvenuti! Per nuove feature:
+Contributions are welcome! Feel free to:
 
-1. Fork il progetto
-2. Crea un branch (`git checkout -b feature/AmazingFeature`)
-3. Commit (`git commit -m 'Add AmazingFeature'`)
-4. Push (`git push origin feature/AmazingFeature`)
-5. Apri una Pull Request
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 Licenza
+## 📮 Support
 
-MIT License - Vedi `LICENSE` per dettagli
+If you find this project useful, please give it a ⭐️ on GitHub!
 
-## 👨‍💻 Autore
-
-Creato con ❤️ usando:
-- [Groq AI](https://groq.com) - LLM velocissimo
-- [Next.js](https://nextjs.org) - React framework
-- [TailwindCSS](https://tailwindcss.com) - Utility CSS
+For issues or questions, please open an issue on the GitHub repository.
 
 ---
 
-⭐ Se ti piace questo progetto, lascia una stella su GitHub!
-
+**Made with ❤️ by Francesco Ciardo | 2025**
