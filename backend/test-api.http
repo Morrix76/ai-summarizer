@@ -1,0 +1,31 @@
+### Health Check
+GET http://localhost:3001/health
+
+### Get Templates
+GET http://localhost:3001/api/templates
+
+### Summarize Text - Brief
+POST http://localhost:3001/api/summarize
+Content-Type: application/json
+
+{
+  "text": "L'intelligenza artificiale (IA) sta rivoluzionando il modo in cui viviamo e lavoriamo. Dalle auto a guida autonoma ai sistemi di raccomandazione, l'IA è ovunque. Le aziende utilizzano l'IA per migliorare l'efficienza, ridurre i costi e offrire esperienze personalizzate ai clienti. Nel settore sanitario, l'IA aiuta i medici a diagnosticare malattie più rapidamente e con maggiore precisione. Nel campo dell'istruzione, gli strumenti di IA personalizzano l'apprendimento per ogni studente. Tuttavia, ci sono anche preoccupazioni riguardo alla privacy, alla sicurezza e all'impatto sul lavoro umano. È fondamentale sviluppare l'IA in modo responsabile ed etico.",
+  "template": "brief"
+}
+
+### Summarize Text - Bullet Points
+POST http://localhost:3001/api/summarize
+Content-Type: application/json
+
+{
+  "text": "L'intelligenza artificiale (IA) sta rivoluzionando il modo in cui viviamo e lavoriamo. Dalle auto a guida autonoma ai sistemi di raccomandazione, l'IA è ovunque. Le aziende utilizzano l'IA per migliorare l'efficienza, ridurre i costi e offrire esperienze personalizzate ai clienti. Nel settore sanitario, l'IA aiuta i medici a diagnosticare malattie più rapidamente e con maggiore precisione. Nel campo dell'istruzione, gli strumenti di IA personalizzano l'apprendimento per ogni studente. Tuttavia, ci sono anche preoccupazioni riguardo alla privacy, alla sicurezza e all'impatto sul lavoro umano. È fondamentale sviluppare l'IA in modo responsabile ed etico.",
+  "template": "bullet"
+}
+
+### Summarize File (requires file upload)
+# POST http://localhost:3001/api/summarize-file
+# Content-Type: multipart/form-data
+# 
+# file: @/path/to/your/file.pdf
+# template: brief
+

@@ -1,0 +1,117 @@
+{
+  "header": {
+    "title": "AI Summarizer",
+    "subtitle": "Powered by Groq",
+    "status": "Online"
+  },
+  "hero": {
+    "title": "Smart Summaries in",
+    "titleHighlight": "Seconds",
+    "description": "Transform long documents into clear and precise summaries with AI. Choose from 6 specialized styles for every need."
+  },
+  "tabs": {
+    "text": "Text",
+    "file": "File"
+  },
+  "input": {
+    "title": "Input",
+    "placeholder": "Paste the text you want to summarize here...\n\nYou can insert articles, documents, emails or any other textual content. The system supports long texts up to 20,000 characters.",
+    "dragDrop": "Drag a file here or",
+    "browse": "Browse",
+    "fileTypes": "PDF, DOC, DOCX, TXT (max 10MB)",
+    "selectedFile": "Selected file",
+    "remove": "Remove"
+  },
+  "templates": {
+    "title": "Summary Style",
+    "brief": {
+      "name": "Brief",
+      "description": "Concise and direct summary"
+    },
+    "detailed": {
+      "name": "Detailed",
+      "description": "In-depth and complete analysis"
+    },
+    "bullet": {
+      "name": "Key Points",
+      "description": "Bulleted list of main elements"
+    },
+    "academic": {
+      "name": "Academic",
+      "description": "Formal style for research and study"
+    },
+    "business": {
+      "name": "Business",
+      "description": "Focus on metrics and business decisions"
+    },
+    "creative": {
+      "name": "Creative",
+      "description": "Narrative and engaging summary"
+    }
+  },
+  "actions": {
+    "generate": "Generate Summary",
+    "generating": "Generating...",
+    "clear": "Clear",
+    "copy": "Copy Text",
+    "copied": "Copied!",
+    "export": "Export PDF"
+  },
+  "output": {
+    "title": "Generated Summary",
+    "stats": {
+      "words": "Words",
+      "characters": "Characters",
+      "template": "Template",
+      "reduction": "Reduction"
+    }
+  },
+  "features": {
+    "title": "Features",
+    "items": {
+      "templates": "6 specialized templates",
+      "files": "PDF, DOC, TXT support",
+      "instant": "Instant summaries",
+      "stats": "Real-time statistics",
+      "export": "PDF export included",
+      "free": "100% free and private"
+    }
+  },
+  "tips": {
+    "title": "Tips",
+    "items": {
+      "brief": "Use <strong>Brief</strong> for quick summaries",
+      "academic": "Choose <strong>Academic</strong> for formal texts",
+      "business": "<strong>Business</strong> is perfect for reports",
+      "privacy": "Files are deleted after processing"
+    }
+  },
+  "stats": {
+    "title": "Statistics",
+    "totalSummaries": "Summaries Created",
+    "totalWords": "Words Processed",
+    "totalCharacters": "Characters Analyzed"
+  },
+  "errors": {
+    "noText": "Enter text to summarize",
+    "noFile": "Select a file to upload",
+    "noTemplate": "Select a template",
+    "connection": "Error connecting to server. Make sure the backend is running on http://localhost:3001",
+    "generic": "An error occurred. Please try again later."
+  },
+  "footer": {
+    "poweredBy": "Powered by",
+    "groq": "Groq AI",
+    "madeWith": "Made with"
+  },
+  "pdf": {
+    "title": "AI Summarizer",
+    "template": "Template",
+    "date": "Date",
+    "originalLength": "Original length",
+    "summaryLength": "Summary length",
+    "characters": "characters",
+    "footer": "Generated with AI Summarizer"
+  }
+}
+
