@@ -1,20 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
 import TextInput from '@/components/TextInput'
 import FileUpload from '@/components/FileUpload'
 import TemplateSelector from '@/components/TemplateSelector'
 import OutputDisplay from '@/components/OutputDisplay'
 import StatsBar from '@/components/StatsBar'
-import LanguageToggle from '@/components/LanguageToggle'
-import HistoryButton from '@/components/HistoryButton'
-import HistoryModal from '@/components/HistoryModal'
 import { summarizeText, uploadFile } from '@/utils/api'
-import { saveToHistory } from '@/utils/history'
 
 export default function Home() {
-  const t = useTranslations()
   const [activeTab, setActiveTab] = useState('text') // 'text' or 'file'
   const [textInput, setTextInput] = useState('')
   const [fileInput, setFileInput] = useState(null)
@@ -23,7 +17,7 @@ export default function Home() {
   const [metadata, setMetadata] = useState({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [historyModalOpen, setHistoryModalOpen] = useState(false)
+  const [warning, setWarning] = useState('')
 
   const updateStats = (originalLength, summaryLength) => {
     if (typeof window === 'undefined') return
@@ -50,17 +44,17 @@ export default function Home() {
     
     // Validation
     if (activeTab === 'text' && !textInput.trim()) {
-      setError(t('errors.noText'))
+      setError('Inserisci del testo da riassumere')
       return
     }
 
     if (activeTab === 'file' && !fileInput) {
-      setError(t('errors.noFile'))
+      setError('Seleziona un file da caricare')
       return
     }
 
     if (!selectedTemplate) {
-      setError(t('errors.noTemplate'))
+      setError('Seleziona un template')
       return
     }
 
@@ -80,29 +74,20 @@ export default function Home() {
       if (data.success && data.data) {
         setSummary(data.data.summary)
         setMetadata(data.data)
+        setWarning(data.warning || '')
         
         // Update stats
         updateStats(
           data.data.originalLength || textInput.length,
           data.data.summary
         )
-
-        // Save to history
-        saveToHistory({
-          template: selectedTemplate,
-          inputText: activeTab === 'text' ? textInput : '',
-          summary: data.data.summary,
-          actionItems: data.data.actionItems || [],
-          originalLength: data.data.originalLength || textInput.length,
-          summaryLength: data.data.summaryLength || data.data.summary.length
-        })
       } else {
-        throw new Error(t('errors.generic'))
+        throw new Error('Risposta non valida dal server')
       }
 
     } catch (err) {
       console.error('Error:', err)
-      setError(err.message || t('errors.connection'))
+      setError(err.message || 'Errore durante la connessione al server. Verifica che il backend sia avviato su http://localhost:3001')
     } finally {
       setLoading(false)
     }
@@ -112,6 +97,7 @@ export default function Home() {
     setSummary('')
     setMetadata({})
     setError('')
+    setWarning('')
   }
 
   const canSummarize = () => {
@@ -131,18 +117,17 @@ export default function Home() {
               <div className="text-4xl">🤖</div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  {t('header.title')}
+                  AI Summarizer
                 </h1>
+                <p className="text-white/60 text-sm">Powered by Groq</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-3">
-              <HistoryButton onClick={() => setHistoryModalOpen(true)} />
-              <LanguageToggle />
+            <div className="flex items-center gap-2">
               <div className="glass-card px-4 py-2">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-white/80 text-sm">{t('header.status')}</span>
+                  <span className="text-white/80 text-sm">Online</span>
                 </div>
               </div>
             </div>
@@ -154,13 +139,14 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center space-y-4 py-8 animate-fade-in">
           <h2 className="text-4xl sm:text-5xl font-bold text-white">
-            {t('hero.title')}{' '}
+            Riassunti Intelligenti in{' '}
             <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              {t('hero.titleHighlight')}
+              Secondi
             </span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            {t('hero.description')}
+            Trasforma lunghi documenti in riassunti chiari e precisi con l'AI. 
+            Scegli tra 6 stili specializzati per ogni esigenza.
           </p>
         </div>
 
@@ -172,7 +158,7 @@ export default function Home() {
             <div className="glass-card p-6 space-y-4">
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-2xl">📝</span>
-                <h3 className="text-white font-semibold text-lg">{t('input.title')}</h3>
+                <h3 className="text-white font-semibold text-lg">Input</h3>
               </div>
 
               {/* Tabs */}
@@ -187,7 +173,7 @@ export default function Home() {
                     }
                   `}
                 >
-                  📄 {t('tabs.text')}
+                  📄 Testo
                 </button>
                 <button
                   onClick={() => setActiveTab('file')}
@@ -199,7 +185,7 @@ export default function Home() {
                     }
                   `}
                 >
-                  📎 {t('tabs.file')}
+                  📎 File
                 </button>
               </div>
 
@@ -241,12 +227,12 @@ export default function Home() {
               {loading ? (
                 <>
                   <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>{t('actions.generating')}</span>
+                  <span>Generazione in corso...</span>
                 </>
               ) : (
                 <>
                   <span>✨</span>
-                  <span>{t('actions.generate')}</span>
+                  <span>Genera Riassunto</span>
                 </>
               )}
             </button>
@@ -257,6 +243,19 @@ export default function Home() {
                 <div className="flex items-center gap-2 text-red-400">
                   <span>⚠️</span>
                   <span>{error}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Warning Message */}
+            {warning && (
+              <div className="glass-card p-4 border-l-4 border-yellow-500 animate-slide-up">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">⚠️</span>
+                  <div className="flex-1">
+                    <p className="text-yellow-400 font-medium mb-1">Attenzione</p>
+                    <p className="text-white/80 text-sm">{warning}</p>
+                  </div>
                 </div>
               </div>
             )}
@@ -281,17 +280,17 @@ export default function Home() {
             <div className="glass-card p-6 space-y-4">
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-2xl">⚡</span>
-                <h3 className="text-white font-semibold text-lg">{t('features.title')}</h3>
+                <h3 className="text-white font-semibold text-lg">Features</h3>
               </div>
 
               <div className="space-y-3">
                 {[
-                  { icon: '🎯', text: t('features.items.templates') },
-                  { icon: '📄', text: t('features.items.files') },
-                  { icon: '⚡', text: t('features.items.instant') },
-                  { icon: '📊', text: t('features.items.stats') },
-                  { icon: '💾', text: t('features.items.export') },
-                  { icon: '🔒', text: t('features.items.free') }
+                  { icon: '🎯', text: '6 template specializzati' },
+                  { icon: '📄', text: 'Supporto PDF, DOC, TXT' },
+                  { icon: '⚡', text: 'Riassunti istantanei' },
+                  { icon: '📊', text: 'Statistiche in tempo reale' },
+                  { icon: '💾', text: 'Export PDF incluso' },
+                  { icon: '🔒', text: '100% gratuito e privato' }
                 ].map((feature, i) => (
                   <div key={i} className="flex items-center gap-3 text-white/80">
                     <span className="text-xl">{feature.icon}</span>
@@ -305,14 +304,14 @@ export default function Home() {
             <div className="glass-card p-6 space-y-3">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl">💡</span>
-                <h3 className="text-white font-semibold">{t('tips.title')}</h3>
+                <h3 className="text-white font-semibold">Suggerimenti</h3>
               </div>
               
               <div className="space-y-2 text-white/70 text-sm">
-                <p dangerouslySetInnerHTML={{ __html: '• ' + t('tips.items.brief') }} />
-                <p dangerouslySetInnerHTML={{ __html: '• ' + t('tips.items.academic') }} />
-                <p dangerouslySetInnerHTML={{ __html: '• ' + t('tips.items.business') }} />
-                <p>• {t('tips.items.privacy')}</p>
+                <p>• Usa <strong>Brief</strong> per riassunti veloci</p>
+                <p>• Scegli <strong>Accademico</strong> per testi formali</p>
+                <p>• <strong>Business</strong> è perfetto per report</p>
+                <p>• I file vengono eliminati dopo l'elaborazione</p>
               </div>
             </div>
           </div>
@@ -321,25 +320,19 @@ export default function Home() {
         {/* Footer */}
         <footer className="text-center py-8 text-white/50 text-sm">
           <p>
-            {t('footer.poweredBy')}{' '}
+            Powered by{' '}
             <a 
               href="https://groq.com" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-purple-400 hover:text-purple-300 transition-colors"
             >
-              {t('footer.groq')}
+              Groq AI
             </a>
-            {' '}• {t('footer.madeWith')} ❤️
+            {' '}• Creato con ❤️
           </p>
         </footer>
       </div>
-
-      {/* History Modal */}
-      <HistoryModal 
-        isOpen={historyModalOpen} 
-        onClose={() => setHistoryModalOpen(false)} 
-      />
     </main>
   )
 }

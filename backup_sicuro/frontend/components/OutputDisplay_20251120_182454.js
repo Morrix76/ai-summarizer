@@ -1,0 +1,149 @@
+'use client'
+
+import { useState } from 'react'
+import jsPDF from 'jspdf'
+
+export default function OutputDisplay({ summary, metadata, onClear }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(summary)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  const handleExportPDF = () => {
+    const doc = new jsPDF()
+    
+    // Title
+    doc.setFontSize(20)
+    doc.text('AI Summarizer', 20, 20)
+    
+    // Metadata
+    doc.setFontSize(10)
+    doc.setTextColor(100)
+    doc.text(`Template: ${metadata.template || 'N/A'}`, 20, 30)
+    doc.text(`Data: ${new Date(metadata.timestamp).toLocaleString('it-IT')}`, 20, 35)
+    doc.text(`Lunghezza originale: ${metadata.originalLength?.toLocaleString() || 'N/A'} caratteri`, 20, 40)
+    doc.text(`Lunghezza riassunto: ${metadata.summaryLength?.toLocaleString() || 'N/A'} caratteri`, 20, 45)
+    
+    // Summary
+    doc.setFontSize(12)
+    doc.setTextColor(0)
+    
+    const pageWidth = doc.internal.pageSize.getWidth()
+    const margins = 20
+    const maxWidth = pageWidth - (margins * 2)
+    
+    const lines = doc.splitTextToSize(summary, maxWidth)
+    doc.text(lines, margins, 55)
+    
+    // Footer
+    const pageHeight = doc.internal.pageSize.getHeight()
+    doc.setFontSize(8)
+    doc.setTextColor(150)
+    doc.text('Generato con AI Summarizer', margins, pageHeight - 10)
+    
+    doc.save(`riassunto-${Date.now()}.pdf`)
+  }
+
+  if (!summary) return null
+
+  const wordCount = summary.split(/\s+/).filter(w => w).length
+
+  return (
+    <div className="space-y-4 animate-slide-up">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <h3 className="text-white font-semibold text-lg">Riassunto Generato</h3>
+          <span className="text-2xl">✨</span>
+        </div>
+        <button
+          onClick={onClear}
+          className="text-white/60 hover:text-white/90 transition-colors text-sm"
+        >
+          Pulisci
+        </button>
+      </div>
+
+      {/* Summary Content */}
+      <div className="glass-card p-6">
+        <div className="prose prose-invert max-w-none">
+          <p className="text-white/90 leading-relaxed whitespace-pre-wrap">
+            {summary}
+          </p>
+        </div>
+      </div>
+
+      {/* Truncation Info */}
+      {metadata.truncated && (
+        <div className="glass-card p-3 border-l-2 border-yellow-500/50">
+          <div className="flex items-center gap-2 text-yellow-400/90 text-sm">
+            <span>✂️</span>
+            <span>
+              Testo troncato: {metadata.truncatedLength?.toLocaleString()} / {metadata.originalLength?.toLocaleString()} caratteri elaborati
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Metadata */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="glass-card p-3">
+          <div className="text-white/50 text-xs mb-1">Parole</div>
+          <div className="text-white font-semibold text-lg">{wordCount}</div>
+        </div>
+        <div className="glass-card p-3">
+          <div className="text-white/50 text-xs mb-1">Caratteri</div>
+          <div className="text-white font-semibold text-lg">
+            {metadata.summaryLength?.toLocaleString() || 'N/A'}
+          </div>
+        </div>
+        <div className="glass-card p-3">
+          <div className="text-white/50 text-xs mb-1">Template</div>
+          <div className="text-white font-semibold text-sm capitalize">
+            {metadata.template || 'N/A'}
+          </div>
+        </div>
+        <div className="glass-card p-3">
+          <div className="text-white/50 text-xs mb-1">Riduzione</div>
+          <div className="text-white font-semibold text-lg">
+            {metadata.originalLength && metadata.summaryLength
+              ? Math.round((1 - metadata.summaryLength / metadata.originalLength) * 100)
+              : 0}%
+          </div>
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex gap-3">
+        <button
+          onClick={handleCopy}
+          className="btn-gradient flex-1 px-6 py-3 flex items-center justify-center gap-2"
+        >
+          {copied ? (
+            <>
+              <span>✓</span>
+              <span>Copiato!</span>
+            </>
+          ) : (
+            <>
+              <span>📋</span>
+              <span>Copia Testo</span>
+            </>
+          )}
+        </button>
+        
+        <button
+          onClick={handleExportPDF}
+          className="btn-gradient flex-1 px-6 py-3 flex items-center justify-center gap-2"
+        >
+          <span>📄</span>
+          <span>Esporta PDF</span>
+        </button>
+      </div>
+    </div>
+  )
+}
+

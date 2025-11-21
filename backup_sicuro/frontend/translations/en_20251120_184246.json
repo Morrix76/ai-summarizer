@@ -111,32 +111,6 @@
     "summaryLength": "Summary length",
     "characters": "characters",
     "footer": "Generated with AI Summarizer"
-  },
-  "history": {
-    "title": "History",
-    "empty": "No summaries saved",
-    "items": "summaries",
-    "search": "Search...",
-    "filterByTemplate": "Filter by template",
-    "all": "All",
-    "clearAll": "Clear all",
-    "viewDetails": "View details",
-    "hideDetails": "Hide",
-    "confirmDelete": "Are you sure you want to delete this summary?",
-    "confirmClearAll": "Are you sure you want to clear all history?",
-    "actions": {
-      "copy": "Copy",
-      "download": "Save TXT",
-      "exportPdf": "Export PDF",
-      "delete": "Delete"
-    },
-    "txt": {
-      "title": "AI SUMMARY",
-      "date": "Date",
-      "template": "Template",
-      "summary": "Summary",
-      "actionItems": "Action Items"
-    }
   }
 }
 

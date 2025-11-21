@@ -111,32 +111,6 @@
     "summaryLength": "Lunghezza riassunto",
     "characters": "caratteri",
     "footer": "Generato con AI Summarizer"
-  },
-  "history": {
-    "title": "Cronologia",
-    "empty": "Nessun riassunto salvato",
-    "items": "riassunti",
-    "search": "Cerca...",
-    "filterByTemplate": "Filtra per template",
-    "all": "Tutti",
-    "clearAll": "Cancella tutto",
-    "viewDetails": "Vedi dettagli",
-    "hideDetails": "Nascondi",
-    "confirmDelete": "Sei sicuro di voler eliminare questo riassunto?",
-    "confirmClearAll": "Sei sicuro di voler eliminare tutta la cronologia?",
-    "actions": {
-      "copy": "Copia",
-      "download": "Salva TXT",
-      "exportPdf": "Export PDF",
-      "delete": "Elimina"
-    },
-    "txt": {
-      "title": "RIASSUNTO AI",
-      "date": "Data",
-      "template": "Template",
-      "summary": "Riassunto",
-      "actionItems": "Action Items"
-    }
   }
 }
 

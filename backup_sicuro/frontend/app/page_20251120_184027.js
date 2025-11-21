@@ -8,10 +8,7 @@ import TemplateSelector from '@/components/TemplateSelector'
 import OutputDisplay from '@/components/OutputDisplay'
 import StatsBar from '@/components/StatsBar'
 import LanguageToggle from '@/components/LanguageToggle'
-import HistoryButton from '@/components/HistoryButton'
-import HistoryModal from '@/components/HistoryModal'
 import { summarizeText, uploadFile } from '@/utils/api'
-import { saveToHistory } from '@/utils/history'
 
 export default function Home() {
   const t = useTranslations()
@@ -23,7 +20,6 @@ export default function Home() {
   const [metadata, setMetadata] = useState({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [historyModalOpen, setHistoryModalOpen] = useState(false)
 
   const updateStats = (originalLength, summaryLength) => {
     if (typeof window === 'undefined') return
@@ -86,16 +82,6 @@ export default function Home() {
           data.data.originalLength || textInput.length,
           data.data.summary
         )
-
-        // Save to history
-        saveToHistory({
-          template: selectedTemplate,
-          inputText: activeTab === 'text' ? textInput : '',
-          summary: data.data.summary,
-          actionItems: data.data.actionItems || [],
-          originalLength: data.data.originalLength || textInput.length,
-          summaryLength: data.data.summaryLength || data.data.summary.length
-        })
       } else {
         throw new Error(t('errors.generic'))
       }
@@ -133,11 +119,11 @@ export default function Home() {
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                   {t('header.title')}
                 </h1>
+                <p className="text-white/60 text-sm">{t('header.subtitle')}</p>
               </div>
             </div>
             
             <div className="flex items-center gap-3">
-              <HistoryButton onClick={() => setHistoryModalOpen(true)} />
               <LanguageToggle />
               <div className="glass-card px-4 py-2">
                 <div className="flex items-center gap-2">
@@ -334,12 +320,6 @@ export default function Home() {
           </p>
         </footer>
       </div>
-
-      {/* History Modal */}
-      <HistoryModal 
-        isOpen={historyModalOpen} 
-        onClose={() => setHistoryModalOpen(false)} 
-      />
     </main>
   )
 }
